@@ -180,8 +180,19 @@ int main() {
             bool wasVIP;
             string left = line.pop_back(wasVIP);
             cout << left << " (at the rear) left the line" << endl;
+
         }
-  }
+        // 10%: random customer (not front/rear) leaves
+        prob = rand() % 100 + 1;
+        if (prob <= 10 && line.size() > 2) {
+            bool wasVIP;
+            string left = line.remove_random(wasVIP);
+            cout << left << " (in the middle) left the line" << endl;
+
+        }
+        cout << "Resulting line:\n";
+        line.print();
+    }
 
   return 0;
 }

@@ -27,24 +27,50 @@ public:
     DoublyLinkedList() : head(nullptr), tail(nullptr) {}
 
     // ill add here all the methods needed for the doubly linked list
+
+    void push_back(const string& name, bool isVIP) {// method to add a customer at the end of the list
+        Node* newNode = new Node(name, isVIP);
+        if (!tail) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // add the customer at front
+    void push_front(const string& name, bool isVIP=false) {
+        Node* newNode = new Node(name, isVIP);
+        if (!head)
+            head = tail = newNode;
+        else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
 };
 
+string pick_random_name(const vector<string>& names) {
+    int index = rand() % names.size();
+    return names[index];
+}
 
 int main (){
     srand(time(0)); // seed for randomness
 
     vector<string> names;
-    ifstream infile("names.txt");// open the file
-    if (!infile) {
-        cerr << "Unable to open file names.txt";
-        return 1; // exit with error
-    }
+    ifstream fin("names.txt");// open the file
     string line;
 
-    while (getline(infile, line)) {
-        names.push_back(line);
+    while (getline(fin, line)) 
+    if (!line.empty()) {
+        names.push_back(line);// store each name in the vector
     }
-    DoublyLinkedList nameList;
+
+    DoublyLinkedList line;
+    int TIME_STEPS = 20; // number of time steps to simulate
     for (const string& name : names) {
         bool isVIP = (rand() % 2 == 0); // Randomly assign VIP status
     }

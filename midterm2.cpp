@@ -15,8 +15,8 @@ struct Node {
   bool isVIP;
   Node *prev;
   Node *next;
-  Node(string n, bool v, Node *p = nullptr, Node *ne = nullptr) // constructor
-      : name(n), isVIP(v), prev(p), next(ne) {}
+  Node(string n, bool v, Node *p = nullptr, Node *nx = nullptr) // constructor
+      : name(n), isVIP(v), prev(p), next(nx) {}
 };
 class DoublyLinkedList {
 private:
@@ -28,8 +28,7 @@ public:
 
   // ill add here all the methods needed for the doubly linked list
 
-  void push_back(const string &name,
-            bool isVIP) { // method to add a customer at the end of the list
+  void push_back(const string &name, bool isVIP = false) { // method to add a customer at the end of the list
     Node *newNode = new Node(name, isVIP);
     if (!tail) {
       head = tail = newNode;
@@ -53,30 +52,28 @@ public:
   }
 
   string pop_front(bool &wasVIP) {
-    if (!head)
-      return "";
+    if (!head) return "";
     Node *temp = head;
     string nm = temp->name;
     wasVIP = temp->isVIP;
     if (head->next) {
-      head = head->next;
-      head->prev = nullptr;
+        head = head->next;
+        head->prev = nullptr;
     } else {
       head = tail = nullptr;
     }
     delete temp;
-    return nm;
+    return nm;// return the name of the served customer
   }
 
   string pop_back(bool &wasVIP) {
-    if (!tail)
-      return "";
-    Node *temp = tail;
+    if (!tail) return "";
+    Node* temp = tail;
     string nm = temp->name;
     wasVIP = temp->isVIP;
     if (tail->prev) {
-      tail = tail->prev;
-      tail->next = nullptr;
+        tail = tail->prev;
+        tail->next = nullptr;
     } else {
       head = tail = nullptr;
     }
@@ -143,23 +140,22 @@ int main() {
   srand(time(0)); // seed for randomness
 
   vector<string> names;
-  ifstream fin("names.txt"); // open the file
-  string line;
+    ifstream fin("names.txt");
+    string line;
+    while (getline(fin, line)) if (!line.empty()) names.push_back(line);
 
-  while (getline(fin, line))
-    if (!line.empty()) {
-      names.push_back(line); // store each name in the vector
+    DoublyLinkedList line;
+    int TIME_STEPS = 20;
+
+    cout << "Store opens:\n";
+    // Add 5 customers at open
+    for (int i = 0; i < 5; ++i) {
+        string cname = pick_random_name(names);
+        line.push_back(cname);
+        cout << cname << " joins the line\n";
     }
-
-  int TIME_STEPS = 20; // number of time steps to simulate
-
-  cout << "store opens: \n";
-  for (int i = 0; i < 5; ++i) {
-    string cname = pick_random_name(names);
-    cout << cname << " joins the line\n";
-  }
-  cout << "Resulting line:\n";
-  line.print();
+    cout << "Resulting line:\n";
+    line.print();
 
   for (int t = 2; t <= TIME_STEPS; ++t) {
     cout << "Time step #" << t << ":\n";

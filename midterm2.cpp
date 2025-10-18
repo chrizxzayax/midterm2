@@ -52,7 +52,7 @@ public:
     }
   }
 
-  string pop_front(bool& wasVIP) {
+  string pop_front(bool& wasVIP) {// method to remove customer from the front of the list
     if (!head) return "";
     Node* temp = head;
     string nm = temp->name;
@@ -67,7 +67,7 @@ public:
     return nm;// return the name of the served customer
   }
 
-  string pop_back(bool& wasVIP) {
+  string pop_back(bool& wasVIP) {// method to remove customer from the end of the list
     if (!tail) return "";
     Node* temp = tail;
     string nm = temp->name;
@@ -76,7 +76,7 @@ public:
         tail = tail->prev;
         tail->next = nullptr;
     } else {
-      head = tail = nullptr;
+      head = tail = nullptr;// if list became empty
     }
     delete temp;
     return nm;
@@ -97,7 +97,7 @@ public:
         return nm;
     }
 
-void print() const {
+void print() const {// method to print the list
 
      Node* current = head;
         if (!current) { cout << "Line is empty.\n"; return; }
@@ -107,7 +107,7 @@ void print() const {
         }
     }
 
-  int size() const {
+  int size() const {// method to get the size of the list
     int count = 0;
     Node* current = head;
     while (current) {
@@ -116,13 +116,15 @@ void print() const {
     }
     return count;
   }
-
+    // check if the list is empty
     bool empty() const {
         return head == nullptr;
     }
+    // get front and back names
     string front() const {
         return head ? head->name : "";
     }
+    // get back name
     string back() const {
         return tail ? tail->name : "";
     }
@@ -145,7 +147,7 @@ int main() {
     string fileLine;
     while (getline(fin, fileLine)) if (!fileLine.empty()) names.push_back(fileLine);
 
-    DoublyLinkedList line;
+    DoublyLinkedList line;// the customer line
     int TIME_STEPS = 20;
 
     cout << "Store opens:\n";
@@ -155,7 +157,7 @@ int main() {
         line.push_back(cname);
         cout << cname << " joins the line\n";
     }
-    cout << "Resulting line:\n";
+    cout << "Resulting line:\n";// print the line
     line.print();
 
    for (int t = 2; t <= TIME_STEPS; ++t) {
